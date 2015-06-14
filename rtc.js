@@ -8,7 +8,23 @@ if (Meteor.isClient) {
   Session.setDefault('counter', 0);
 
   Template.body.helpers({
-    'tasks': Tasks.find({}, {sort: {'createdAt': -1}})
+    'tasks': function() {
+
+      if(Session.get('hideCompleted')) {
+        return Tasks.find({'checked': {$ne: true} }, {sort: {'createdAt': -1}});
+      }
+
+      return Tasks.find({}, {sort: {'createdAt': -1}});
+    },
+
+    'hideCompleted': function() {
+      return Session.get('hideCompleted');
+    },
+
+    'incompleteCount': function() {
+      return Tasks.find({'checked': {$ne: true}}).count();
+    }
+
   });
 
 
@@ -36,9 +52,12 @@ if (Meteor.isClient) {
     },
 
     'click .toggle-checked': function(event) {
-
-      //console.log(this);
       Tasks.update(this._id, {$set: { 'checked': ! this.checked}});
+    },
+
+    'click .hide-completed input': function(event) {
+      var hideCompleted = event.target.checked;
+      Session.set('hideCompleted', hideCompleted);
     }
 
   });

@@ -1,16 +1,20 @@
 <head>
-  <title>roy-todo 0.1</title>
+  <title>roy-todo 0.2</title>
 </head>
 
 <body>
 
 	<div class="container">
 		<header>
-			<h1>To do list</h1>
-
-		<form class="new-task">
-			<input type="text" name="text" placeholder="Type to add new tasks" />
-		</form>
+			<h1>To do list ({{incompleteCount}})</h1>
+			
+			<label for="" class="hide-completed">
+				<input type="checkbox" checked="{{hideCompleted}}"/>
+				Hide Completed Tasks
+			</label>
+			<form class="new-task">
+				<input type="text" name="text" placeholder="Type to add new tasks" />
+			</form>
 
 		</header>
 		<ul>
