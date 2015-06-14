@@ -9,7 +9,6 @@ if (Meteor.isClient) {
 
   Template.body.helpers({
     'tasks': function() {
-      console.log('refresh tasks');
 
       if(Session.get('hideCompleted')) {
         return Tasks.find({'checked': {$ne: true} }, {sort: {'createdAt': -1}});
@@ -19,9 +18,13 @@ if (Meteor.isClient) {
     },
 
     'hideCompleted': function() {
-      console.log('refresh hideCompleted:' + Session.get('hideCompleted'));
       return Session.get('hideCompleted');
+    },
+
+    'incompleteCount': function() {
+      return Tasks.find({'checked': {$ne: true}}).count();
     }
+
   });
 
 
